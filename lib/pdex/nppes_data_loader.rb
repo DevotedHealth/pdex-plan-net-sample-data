@@ -6,12 +6,12 @@ module PDEX
 
   class NPPESDataLoader
 
-    DATA_DIR = File.join(__dir__, '..', '..', '/sample-data')
-    MANAGING_ORG_FILENAMES = File.join(DATA_DIR, 'managing_orgs_data.csv')
-    ORGANIZATION_FILENAMES = File.join(DATA_DIR, 'sample-nppes-organization-data.csv')
-    PHARMACY_FILENAMES = File.join(DATA_DIR, 'ct_pharmacies.csv')
-    PRACTITIONER_FILENAMES = File.join(DATA_DIR, 'sample-nppes-practitioner_20181204-data.csv')
-    NETWORK_FILENAMES = File.join(DATA_DIR, 'sample-nppes-network_20181204-data.csv')
+    DATA_DIR = File.join(__dir__, '..', '..', 'sample-data')
+    MANAGING_ORG_DIR = File.join(DATA_DIR, 'managing_orgs')
+    ORGANIZATION_FILES_DIR = File.join(DATA_DIR, 'organizations')
+    PHARMACY_FILES_DIR = File.join(DATA_DIR, 'pharmacies')
+    PRACTITIONER_FILES_DIR = File.join(DATA_DIR, 'practitioners')
+    NETWORK_FILES_DIR = File.join(DATA_DIR, 'networks')
 
     class << self
     include ShortName
@@ -27,13 +27,15 @@ module PDEX
       private
 
       def load_managing_organizations
-        CSV.foreach(MANAGING_ORG_FILENAMES, headers: true) do |row|
-          if insurance_plan? row
-            NPPESDataRepo.plans << PDEX::NPPESManagingOrg.new(row)
-          elsif managing_org? row
-            NPPESDataRepo.managing_orgs << PDEX::NPPESManagingOrg.new(row, managing_org: true)
-          elsif payer? row
-            NPPESDataRepo.payers << PDEX::NPPESManagingOrg.new(row, payer: true)
+        Dir.glob(File.join(MANAGING_ORG_DIR, '*.csv')) do |filename|
+          CSV.foreach(filename, headers: true) do |row|
+            if insurance_plan? row
+              NPPESDataRepo.plans << PDEX::NPPESManagingOrg.new(row)
+            elsif managing_org? row
+              NPPESDataRepo.managing_orgs << PDEX::NPPESManagingOrg.new(row, managing_org: true)
+            elsif payer? row
+              NPPESDataRepo.payers << PDEX::NPPESManagingOrg.new(row, payer: true)
+            end
           end
         end
       end
@@ -51,26 +53,34 @@ module PDEX
       end
 
       def load_networks
-        CSV.foreach(NETWORK_FILENAMES, headers: true) do |row|
-          NPPESDataRepo.networks << PDEX::NPPESNetwork.new(row)
+        Dir.glob(File.join(NETWORK_FILES_DIR, '*.csv')) do |filename|
+          CSV.foreach(filename, headers: true) do |row|
+            NPPESDataRepo.networks << PDEX::NPPESNetwork.new(row)
+          end
         end
       end
 
       def load_organizations
-        CSV.foreach(ORGANIZATION_FILENAMES, headers: true) do |row|
-          NPPESDataRepo.organizations << PDEX::NPPESOrganization.new(row)
+        Dir.glob(File.join(ORGANIZATION_FILES_DIR, '*.csv')) do |filename|
+          CSV.foreach(filename, headers: true) do |row|
+            NPPESDataRepo.organizations << PDEX::NPPESOrganization.new(row)
+          end
         end
       end
 
       def load_practitioners
-        CSV.foreach(PRACTITIONER_FILENAMES, headers: true) do |row|
-          NPPESDataRepo.practitioners << PDEX::NPPESPractitioner.new(row)
+        Dir.glob(File.join(PRACTITIONER_FILES_DIR, '*.csv')) do |filename|
+          CSV.foreach(filename, headers: true) do |row|
+            NPPESDataRepo.practitioners << PDEX::NPPESPractitioner.new(row)
+          end
         end
       end
 
       def load_pharmacies
-        CSV.foreach(PHARMACY_FILENAMES, headers: true) do |row|
-          NPPESDataRepo.pharmacies << PDEX::PharmacyData.new(row)
+        Dir.glob(File.join(PHARMACY_FILES_DIR, '*.csv')) do |filename|
+          CSV.foreach(filename, headers: true) do |row|
+            NPPESDataRepo.pharmacies << PDEX::PharmacyData.new(row)
+          end
         end
       end
 
