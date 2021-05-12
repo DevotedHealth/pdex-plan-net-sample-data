@@ -116,6 +116,7 @@ module PDEX
     end
 
     def qualification(data)
+      return nil if data.nil?
       state_display = States.display_name(data.state)
       licensor = States.licensor(data.state.to_sym)
       licensor_system = States.licensor_system(data.state)
@@ -187,6 +188,7 @@ module PDEX
         text: 'English',
         extension: proficiency_extension(true)
       }
+      return [english] if source_data.name.first.nil? || source_data.name.last.nil?
       [
         english,
         second_language((source_data.name.first + source_data.name.last).length % 10)

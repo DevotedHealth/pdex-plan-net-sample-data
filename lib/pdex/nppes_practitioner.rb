@@ -1,11 +1,9 @@
 require_relative 'utils/formatting'
-require_relative 'utils/fakes'
 require_relative 'utils/position'
 
 module PDEX
   class NPPESPractitioner
     include Formatting
-    include Fakes
     include Position
 
     attr_reader :raw_data
@@ -15,7 +13,7 @@ module PDEX
     end
 
     def npi
-      @npi ||= fake_npi(raw_data['NPI'])
+      @npi
     end
 
     def name
@@ -24,31 +22,31 @@ module PDEX
           first: first_name,
           middle: middle_name,
           last: last_name,
-          prefix: raw_data['Provider Name Prefix Text'].capitalize,
-          suffix: raw_data['Provider Name Suffix Text'].capitalize,
+          prefix: raw_data['Provider Name Prefix Text']&.capitalize,
+          suffix: raw_data['Provider Name Suffix Text']&.capitalize,
           credential: raw_data['Provider Credential Text']
         }
       )
     end
 
     def first_name
-      @first_name ||= fake_gendered_name(gender)
+      @first_name
     end
 
     def middle_name
-      @middle_name ||= rand < 0.5 ? fake_gendered_name(gender) : ''
+      @middle_name
     end
 
     def last_name
-      @last_name ||= fake_family_name
+      @last_name
     end
 
     def phone_numbers
-      @phone_numbers ||= [fake_phone_number]
+      @phone_numbers
     end
 
     def fax_numbers
-      @fax_numbers ||= [fake_phone_number]
+      @fax_numbers
     end
 
     def address
@@ -93,11 +91,7 @@ module PDEX
     end
 
     def default_qualification
-      @default_qualification ||= OpenStruct.new({
-        state: 'MA',
-        license_number: fake_license_number,
-        taxonomy_code: '207Q00000X'
-      })
+      @default_qualification
     end
   end
 end

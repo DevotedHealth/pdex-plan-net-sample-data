@@ -54,6 +54,7 @@ module PDEX
     end
 
     def identifier
+      return nil if organization_data.nil?
       {
         use: 'secondary',
         type: {
@@ -72,6 +73,7 @@ module PDEX
     end
 
     def extensions
+      return nil if network_data.nil?
       network_data.map do |network|
         {
           url: NETWORK_REFERENCE_EXTENSION_URL,
@@ -91,6 +93,7 @@ module PDEX
     end
 
     def organization
+      return nil if organization_data.nil?
       {
         reference: "Organization/plannet-organization-#{organization_data.npi}",
         display: organization_data.name
@@ -118,6 +121,7 @@ module PDEX
     end
 
     def location
+      return nil if organization_data.nil?
       [
         {
           reference: "Location/plannet-location-#{organization_data.npi}",
@@ -127,16 +131,11 @@ module PDEX
     end
 
     def available_time
-      [
-        {
-          daysOfWeek: ['mon', 'tue', 'wed', 'thu'],
-          availableStartTime: '09:00:00',
-          availableEndTime: '12:00:00'
-        }
-      ]
+      nil
     end
 
     def services
+      return nil if organization_data.nil?
       [
         {
           reference: "HealthcareService/#{format_for_url(category_type(organization_data.name))[0..30]}-healthcareservice-#{organization_data.npi}",

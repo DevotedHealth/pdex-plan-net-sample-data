@@ -33,10 +33,12 @@ module PDEX
     end
 
     def organization
+      return nil if organizations.nil?
       organizations[nppes_data.npi.to_i % organizations.length]
     end
 
     def organization_ref
+      return nil if organization.nil?
       {
         reference: "Organization/plannet-organization-#{organization.npi}",
         display: organization.name
@@ -44,6 +46,7 @@ module PDEX
     end
 
     def networks
+      return nil if organization.nil?
       PDEX::NPPESDataRepo.organization_networks[organization.npi]
     end
   end

@@ -55,8 +55,7 @@ module PDEX
     end
 
     def networks
-      @networks ||= state_networks.sample(nppes_data.name.length % state_networks.length + 1)
-      PDEX::NPPESDataRepo.organization_networks[nppes_data.npi] = @networks
+      []
     end
 
     def state_managing_orgs
