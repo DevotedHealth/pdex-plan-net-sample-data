@@ -13,7 +13,7 @@ module PDEX
     end
 
     def npi
-      @npi
+      @npi ||= raw_data['NPI']
     end
 
     def name
@@ -30,15 +30,15 @@ module PDEX
     end
 
     def first_name
-      @first_name
+      @first_name ||= raw_data['first_name']
     end
 
     def middle_name
-      @middle_name
+      @middle_name ||= raw_data['middle_name']
     end
 
     def last_name
-      @last_name
+      @last_name ||= raw_data['last_name']
     end
 
     def phone_numbers
