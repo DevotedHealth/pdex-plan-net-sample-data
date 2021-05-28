@@ -30,23 +30,23 @@ module PDEX
     end
 
     def first_name
-      @first_name ||= raw_data['first_name']
+      @first_name ||= raw_data['Provider First Name']
     end
 
     def middle_name
-      @middle_name ||= raw_data['middle_name']
+      @middle_name ||= raw_data['Provider Middle Name']
     end
 
     def last_name
-      @last_name ||= raw_data['last_name']
+      @last_name ||= raw_data['Provider Last Name']
     end
 
     def phone_numbers
-      @phone_numbers
+      @phone_numbers ||= [raw_data['Provider Business Practice Location Address Telephone Number']]
     end
 
     def fax_numbers
-      @fax_numbers
+      @fax_numbers ||= [raw_data['Provider Business Practice Location Address Fax Number']]
     end
 
     def address

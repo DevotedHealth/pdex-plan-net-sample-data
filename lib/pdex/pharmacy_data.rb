@@ -14,7 +14,7 @@ module PDEX
     end
 
     def npi
-      @credential
+      @credential ||= raw_data['CredentialId']
     end
 
     def name
@@ -22,7 +22,7 @@ module PDEX
     end
 
     def phone_numbers
-      @phone_numbers
+      @phone_numbers ||= [raw_data['Phone']]
     end
 
     def fax_numbers
