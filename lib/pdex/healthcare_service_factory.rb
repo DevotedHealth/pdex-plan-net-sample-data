@@ -34,9 +34,7 @@ module PDEX
           location: locations,
           name: name,
           comment: comment,
-          appointmentRequired: true,
           telecom: telecom,
-          availableTime: available_time,
           extension: [
             new_patients_extension,
             delivery_method_extension

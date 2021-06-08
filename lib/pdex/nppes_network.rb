@@ -1,12 +1,9 @@
-require 'faker'
 require_relative 'utils/formatting'
-require_relative 'utils/fakes'
 require_relative 'utils/position'
 
 module PDEX
   class NPPESNetwork
     include Formatting
-    include Fakes
     include Position
 
     attr_reader :raw_data
@@ -32,11 +29,11 @@ module PDEX
     end
 
     def phone_numbers
-      @phone_numbers ||= [fake_phone_number]
+      @phone_numbers ||= []
     end
 
     def fax_numbers
-      @fax_numbers ||= [fake_phone_number]
+      @fax_numbers ||= []
     end
 
     def address
@@ -51,15 +48,16 @@ module PDEX
     end
 
     def contact_first_name
-      @contact_first_name ||= fake_first_name
+      @contact_first_name ||= ''
     end
 
     def contact_last_name
-      @contact_last_name ||= fake_family_name
+      @contact_last_name ||= ''
     end
 
     def part_of_id
-      fake_npi(raw_data['partof_id'])
+      # TODO NPI
+      raw_data['partof_id']
     end
 
     def part_of_name

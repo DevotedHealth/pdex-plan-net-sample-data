@@ -3,13 +3,11 @@ require_relative 'address'
 require_relative 'telecom'
 require_relative 'utils/states'
 require_relative 'utils/nucc_codes'
-require_relative 'utils/fakes'
 
 module PDEX
   class OrganizationFactory
     include Address
     include Telecom
-    include Fakes
 
     attr_reader :source_data, :resource_type, :profile, :payer, :managing_org, :pharmacy, :npi 
 
@@ -61,7 +59,7 @@ module PDEX
       {
         use: 'official',
         system: 'http://i.made/this/up',
-        value: fake_license_number,
+        value: '',
       }
    
     end

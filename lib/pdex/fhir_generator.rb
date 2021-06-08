@@ -11,6 +11,7 @@ module PDEX
   class FHIRGenerator
     RESOURCE_TYPES = [
       'InsurancePlan',
+      'Network',
       'Organization',
       'OrganizationAffiliation',
       'Location',

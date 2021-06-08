@@ -1,10 +1,8 @@
-require_relative 'utils/fakes'
 require_relative 'utils/formatting'
 require_relative 'utils/position'
 
 module PDEX
   class NPPESManagingOrg
-    include Fakes
     include Formatting
     include Position
 
@@ -32,7 +30,8 @@ module PDEX
     end
 
     def id
-      payer || managing_org ? fake_npi(raw_data['id']) : raw_data['plan_id']
+      # TODO
+      payer || managing_org ? raw_data['id'] : raw_data['plan_id']
     end
 
     def type
@@ -52,7 +51,8 @@ module PDEX
     end
 
     def owner_id
-      fake_npi(raw_data['partof_id'])
+      # TODO 
+      raw_data['partof_id']
     end
 
     def owner_name
@@ -88,11 +88,11 @@ module PDEX
     end
 
     def phone_numbers
-      @phone_numbers ||= [fake_phone_number]
+      @phone_numbers ||= []
     end
 
     def fax_numbers
-      @fax_numbers ||= [fake_phone_number]
+      @fax_numbers ||= []
     end
 
     def address
