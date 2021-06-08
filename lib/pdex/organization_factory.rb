@@ -65,7 +65,7 @@ module PDEX
     end
 
     def identifier
-      return  pharmacy_org_identifier if @pharmacy
+      # return  pharmacy_org_identifier if @pharmacy
       {
         use: 'official',
         system: 'http://hl7.org/fhir/sid/us-npi',
@@ -152,27 +152,7 @@ module PDEX
           family: source_data.contact_last_name,
           given: [source_data.contact_first_name]
         },
-        telecom: [
-          telecom.first.merge(
-            {
-              use: 'work',
-              extension: [
-                {
-                  url: CONTACT_POINT_AVAILABLE_TIME_EXTENSION_URL,
-                  extension:
-                    ['mon', 'tue', 'wed', 'thu', 'fri']
-                    .map { |day| { url: 'daysOfWeek', valueCode: day } }
-                    .concat(
-                      [
-                        { url: 'availableStartTime', valueTime: '07:00:00' },
-                        { url: 'availableEndTime', valueTime: '18:00:00' }
-                      ]
-                    )
-                }
-              ]
-            }
-          )
-        ],
+        telecom: [],
         address: address
       }
     end

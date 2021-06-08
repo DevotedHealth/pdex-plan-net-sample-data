@@ -26,7 +26,7 @@ module PDEX
       @fax_numbers ||= []
     end
 
-    def address]
+    def address
       OpenStruct.new(
         {
           lines: [

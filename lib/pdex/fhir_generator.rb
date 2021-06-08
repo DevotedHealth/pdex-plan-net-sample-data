@@ -10,8 +10,9 @@ require_relative './practitioner_generator'
 module PDEX
   class FHIRGenerator
     RESOURCE_TYPES = [
-      'InsurancePlan',
-      'Network',
+      # TODO
+      # 'InsurancePlan',
+      # 'Network',
       'Organization',
       'OrganizationAffiliation',
       'Location',
