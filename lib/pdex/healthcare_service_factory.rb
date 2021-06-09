@@ -2,7 +2,6 @@ require_relative 'telecom'
 require_relative 'fhir_elements'
 require_relative 'utils/formatting'
 require_relative 'utils/nucc_codes'
-require_relative 'utils/randoms'
 
 module PDEX
   class HealthcareServiceFactory
@@ -10,7 +9,6 @@ module PDEX
     include FHIRElements
     include Telecom
     include ShortName
-    include Randoms
 
     attr_reader :source_data, :locations_list, :provided_by, :category_type, :profile
 
@@ -35,10 +33,6 @@ module PDEX
           name: name,
           comment: comment,
           telecom: telecom,
-          extension: [
-            new_patients_extension,
-            delivery_method_extension
-          ]
         }
       )
     end

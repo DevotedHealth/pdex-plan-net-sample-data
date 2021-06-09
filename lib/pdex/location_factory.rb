@@ -2,7 +2,6 @@ require 'fhir_models'
 require_relative 'address'
 require_relative 'telecom'
 require_relative 'utils/formatting'
-require_relative 'utils/randoms'
 
 module PDEX
   class LocationFactory
@@ -10,7 +9,6 @@ module PDEX
     include Telecom
     include Formatting
     include ShortName
-    include Randoms
 
     attr_reader :source_data, :pharmacy
 
@@ -24,10 +22,6 @@ module PDEX
         {
           id: id,
           meta: meta,
-          extension: [
-            accessibility_extension,
-            new_patients_extension,
-          ],
           identifier: identifier,
           status: 'active',
           name: location_name,
@@ -37,8 +31,6 @@ module PDEX
           address: address,
           position: position,
           managingOrganization: managing_organization,
-          hoursOfOperation: hours_of_operation,
-          availabilityExceptions: availability_exceptions
         }
       )
     end

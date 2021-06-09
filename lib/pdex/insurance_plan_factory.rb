@@ -21,7 +21,6 @@ module PDEX
         meta: meta,
         identifier: identifier,
         status: 'active',
-        type: type,
         name: name,
         alias: plan_alias,
         ownedBy: owned_by,
