@@ -177,7 +177,7 @@ module PDEX
     end
 
     def communication
-      english = {
+      [{
         coding: [
           {
             system: 'urn:ietf:bcp:47',
@@ -187,12 +187,7 @@ module PDEX
         ],
         text: 'English',
         extension: proficiency_extension(true)
-      }
-      return [english] if source_data.name.first.nil? || source_data.name.last.nil?
-      [
-        english,
-        second_language((source_data.name.first + source_data.name.last).length % 10)
-      ].compact
+      }]
     end
 
     def second_language(n)

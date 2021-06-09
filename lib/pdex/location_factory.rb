@@ -138,26 +138,6 @@ module PDEX
       ]
     end
 
-    def telecom
-      super.map do |telecom_entry|
-        telecom_entry.merge(
-          {
-            extension: [
-              {
-                url: CONTACT_POINT_AVAILABLE_TIME_EXTENSION_URL,
-                extension: [
-                  {
-                    url: 'allDay',
-                    valueBoolean: true
-                  }
-                ]
-              }
-            ]
-          }
-        )
-      end
-    end
-
     def managing_organization
       {
         reference: "Organization/#{organization_id}",
