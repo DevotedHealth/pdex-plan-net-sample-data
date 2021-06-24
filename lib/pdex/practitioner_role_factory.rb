@@ -43,7 +43,7 @@ module PDEX
     private
 
     def id
-      "plannet-practitionerrole-#{source_data.npi}"
+      source_data.npi
     end
 
     def meta
@@ -54,22 +54,23 @@ module PDEX
     end
 
     def identifier
-      return nil if organization_data.nil?
-      {
-        use: 'secondary',
-        type: {
-          coding: [
-            {
-              system: 'http://terminology.hl7.org/CodeSystem/v2-0203',
-              code: 'PRN',
-              display: 'Provider Number'
-            }
-          ],
-          text: 'Hospital ID'
-        },
-        system: "https://#{format_for_url(organization_data.name)}.com",
-        value: SecureRandom.hex(7)
-      }
+      return nil
+      # return nil if organization_data.nil?
+      # {
+      #   use: 'secondary',
+      #   type: {
+      #     coding: [
+      #       {
+      #         system: 'http://terminology.hl7.org/CodeSystem/v2-0203',
+      #         code: 'PRN',
+      #         display: 'Provider Number'
+      #       }
+      #     ],
+      #     text: 'Hospital ID'
+      #   },
+      #   system: "https://#{format_for_url(organization_data.name)}.com",
+      #   value: SecureRandom.hex(7)
+      # }
     end
 
     def extensions
@@ -78,7 +79,7 @@ module PDEX
         {
           url: NETWORK_REFERENCE_EXTENSION_URL,
           valueReference: {
-            reference: "Organization/plannet-network-#{network.npi}",
+            reference: "Organization/#{network.npi}",
             display: network.name
           }
         }
@@ -87,7 +88,7 @@ module PDEX
 
     def practitioner
       {
-        reference: "Practitioner/plannet-practitioner-#{source_data.npi}",
+        reference: "Practitioner/#{source_data.npi}",
         display: "#{source_data.name.first} #{source_data.name.last}"
       }
     end
@@ -95,7 +96,7 @@ module PDEX
     def organization
       return nil if organization_data.nil?
       {
-        reference: "Organization/plannet-organization-#{organization_data.npi}",
+        reference: "Organization/#{organization_data.npi}",
         display: organization_data.name
       }
     end
@@ -124,7 +125,7 @@ module PDEX
       return nil if organization_data.nil?
       [
         {
-          reference: "Location/plannet-location-#{organization_data.npi}",
+          reference: "Location/#{organization_data.npi}",
           display: organization_data.name
         }
       ]

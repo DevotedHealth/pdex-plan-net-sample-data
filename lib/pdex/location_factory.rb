@@ -38,16 +38,16 @@ module PDEX
     private
 
     def id
-      "plannet-location-#{source_data.npi}"
+      source_data.npi
     end
 
     def pharmacy_organization_id
-      "plannet-organization-#{digest_name(location_name)}"
+      digest_name(location_name)
     end
 
     def organization_id
       return pharmacy_organization_id if @pharmacy
-      "plannet-organization-#{source_data.npi}"
+      source_data.npi
     end
 
     def meta

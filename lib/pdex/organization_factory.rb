@@ -45,7 +45,7 @@ module PDEX
     end
 
     def id
-      "plannet-#{resource_type}-#{source_data.npi}"
+      source_data.npi
     end
 
     def meta

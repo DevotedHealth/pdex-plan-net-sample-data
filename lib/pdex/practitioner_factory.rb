@@ -38,7 +38,7 @@ module PDEX
     private
 
     def id
-      "plannet-practitioner-#{source_data.npi}"
+      source_data.npi
     end
 
     def meta

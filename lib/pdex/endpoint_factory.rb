@@ -34,7 +34,7 @@ module PDEX
     private
 
     def id
-      "plannet-#{source_type}-#{source_data.npi}-direct"
+      "#{source_type}-#{source_data.npi}-direct"
     end
 
     def meta
@@ -58,7 +58,7 @@ module PDEX
 
     def managing_organization
       {
-        reference: "Organization/plannet-organization-#{source_data.npi}",
+        reference: "Organization/#{source_data.npi}",
         display: source_data.name
       }
     end

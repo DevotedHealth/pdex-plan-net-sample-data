@@ -35,7 +35,7 @@ module PDEX
     def pharmacy_locations
       locations.map do |pharm_data|
         {
-          reference: "Location/plannet-location-#{pharm_data.npi}",  
+          reference: "Location/#{pharm_data.npi}",  
           display: pharm_data.name
         }
       end
@@ -43,7 +43,7 @@ module PDEX
 
     def organization
         {
-          reference: "Organization/plannet-organization-#{source_data.npi}",
+          reference: "Organization/#{source_data.npi}",
           display: source_data.name
         }
     end

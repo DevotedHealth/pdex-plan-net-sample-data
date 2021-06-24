@@ -42,7 +42,7 @@ module PDEX
     private
 
     def id
-      "plannet-organizationaffiliation-#{source_data.npi}"
+      source_data.npi
     end
 
     def meta
@@ -79,14 +79,14 @@ module PDEX
 
     def organization
       {
-        reference: "Organization/plannet-organization-#{managing_org.npi}",
+        reference: "Organization/#{managing_org.npi}",
         display: managing_org.name
       }
     end
 
     def participatingOrganization
       {
-        reference: "Organization/plannet-organization-#{source_data.npi}",
+        reference: "Organization/#{source_data.npi}",
         display: source_data.name
       }
     end
@@ -94,7 +94,7 @@ module PDEX
     def network
       networks.map do |network_data|
         {
-          reference: "Organization/plannet-network-#{network_data.npi}",
+          reference: "Organization/#{network_data.npi}",
           display: network_data.name
         }
       end

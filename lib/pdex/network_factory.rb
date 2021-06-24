@@ -56,7 +56,7 @@ module PDEX
 
     def part_of
       {
-        reference: "Organization/plannet-organization-#{source_data.part_of_id}",
+        reference: "Organization/#{source_data.part_of_id}",
         display: source_data.part_of_name
       }
     end

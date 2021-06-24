@@ -61,7 +61,7 @@ module PDEX
     def locations
       locations_list.map do |data|
         {
-          reference: "Location/plannet-location-#{data.npi}",  
+          reference: "Location/#{data.npi}",  
           display: data.name
         }
       end

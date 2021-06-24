@@ -33,7 +33,7 @@ module PDEX
     private
 
     def id
-      "plannet-#{resource_type}-#{source_data.id}"
+      "#{resource_type}-#{source_data.id}"
     end
 
     def meta
@@ -90,7 +90,7 @@ module PDEX
     def network
       [
         {
-          reference: "Organization/plannet-network-#{source_data.network_id}",
+          reference: "Organization/#{source_data.network_id}",
           display: source_data.network_name
 
         }
@@ -99,14 +99,14 @@ module PDEX
 
     def owned_by
       {
-        reference: "Organization/plannet-organization-#{source_data.owner_id}",
+        reference: "Organization/#{source_data.owner_id}",
         display: source_data.owner_name
       }
     end
 
     def administered_by
       {
-        reference: "Organization/plannet-organization-#{source_data.administrator_id}",
+        reference: "Organization/#{source_data.administrator_id}",
         display: source_data.administrator_name
       }
     end
