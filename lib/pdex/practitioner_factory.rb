@@ -38,7 +38,7 @@ module PDEX
     private
 
     def id
-      source_data.npi
+      "practitioner-#{source_data.npi}"
     end
 
     def meta

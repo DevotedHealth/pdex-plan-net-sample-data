@@ -38,7 +38,7 @@ module PDEX
     private
 
     def id
-      source_data.npi
+      "location-#{source_data.npi}"
     end
 
     def pharmacy_organization_id

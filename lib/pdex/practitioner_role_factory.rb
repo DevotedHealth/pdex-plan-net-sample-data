@@ -43,7 +43,7 @@ module PDEX
     private
 
     def id
-      source_data.npi
+      "practitioner-role-#{source_data.npi}"
     end
 
     def meta
@@ -88,7 +88,7 @@ module PDEX
 
     def practitioner
       {
-        reference: "Practitioner/#{source_data.npi}",
+        reference: "Practitioner/practitioner-#{source_data.npi}",
         display: "#{source_data.name.first} #{source_data.name.last}"
       }
     end
