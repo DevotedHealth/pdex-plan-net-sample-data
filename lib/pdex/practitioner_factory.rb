@@ -76,8 +76,13 @@ module PDEX
       family_name = source_data.name.last
       prefix = source_data.name.prefix
       suffix = [source_data.name.suffix, source_data.name.credential].reject(&:blank?)
+
+      display_name = "#{source_data.name.first} #{source_data.name.last}"
+      display_name = "#{source_data.name.first} #{source_data.name.last}, #{suffix}" if !suffix.blank?
+
       {
         use: 'official',
+        text: display_name,
         family: family_name,
         given: given_names
       }.tap do |human_name|
