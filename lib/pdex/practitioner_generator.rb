@@ -40,7 +40,7 @@ module PDEX
     def organization_ref
       return nil if organization.nil?
       {
-        reference: "Organization/#{organization.npi}",
+        reference: "Organization/organization-#{organization.npi}",
         display: organization.name
       }
     end

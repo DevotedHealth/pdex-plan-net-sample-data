@@ -58,7 +58,7 @@ module PDEX
 
     def managing_organization
       {
-        reference: "Organization/#{source_data.npi}",
+        reference: "Organization/organization-#{source_data.npi}",
         display: source_data.name
       }
     end

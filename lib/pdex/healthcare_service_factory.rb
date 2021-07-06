@@ -55,13 +55,16 @@ module PDEX
     end
 
     def category_type_display
+      # Reference http://hl7.org/fhir/us/davinci-pdex-plan-net/STU1/CodeSystem-HealthcareServiceCategoryCS.html
+      return "Pharmacy" if category_type == "pharm"
+
       category_type.capitalize
     end
 
     def locations
       locations_list.map do |data|
         {
-          reference: "Location/#{data.npi}",  
+          reference: "Location/location-#{data.npi}",  
           display: data.name
         }
       end
@@ -209,7 +212,7 @@ module PDEX
             display: category_type_display
           }
         ],
-        text: category_type
+        text: category_type_display
       } 
     end
   end

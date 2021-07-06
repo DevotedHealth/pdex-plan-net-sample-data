@@ -41,7 +41,7 @@ module PDEX
 
     def provided_by
       {
-        reference: "Organization/#{nppes_data.npi}",
+        reference: "Organization/organization-#{nppes_data.npi}",
         display: nppes_data.name
       }
     end

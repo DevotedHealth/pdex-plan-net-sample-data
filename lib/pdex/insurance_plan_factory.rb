@@ -90,7 +90,7 @@ module PDEX
     def network
       [
         {
-          reference: "Organization/#{source_data.network_id}",
+          reference: "Organization/organization-#{source_data.network_id}",
           display: source_data.network_name
 
         }
@@ -99,14 +99,14 @@ module PDEX
 
     def owned_by
       {
-        reference: "Organization/#{source_data.owner_id}",
+        reference: "Organization/organization-#{source_data.owner_id}",
         display: source_data.owner_name
       }
     end
 
     def administered_by
       {
-        reference: "Organization/#{source_data.administrator_id}",
+        reference: "Organization/organization-#{source_data.administrator_id}",
         display: source_data.administrator_name
       }
     end

@@ -35,7 +35,7 @@ module PDEX
     def pharmacy_locations
       locations.map do |pharm_data|
         {
-          reference: "Location/#{pharm_data.npi}",  
+          reference: "Location/location-#{pharm_data.npi}",  
           display: pharm_data.name
         }
       end
@@ -43,7 +43,7 @@ module PDEX
 
     def organization
         {
-          reference: "Organization/#{source_data.npi}",
+          reference: "Organization/organization-#{source_data.npi}",
           display: source_data.name
         }
     end
@@ -67,23 +67,23 @@ module PDEX
     def pharmacy_codes
       indexes = [0,1,2].push(3 + (source_data.name.length % 7))
       @codes ||= NUCCCodes.specialty_codes(HEALTHCARE_SERVICE_CATEGORY_TYPES[:pharmacy].downcase).select.with_index{ |_e, i| indexes.include?(i) }
-  end
+    end
 
-  def specialty
-      pharmacy_codes.map do |code|
-        display = NUCCCodes.specialty_display(code)
-        {
-          coding: [
-            {
-              code: code,
-              system: 'http://nucc.org/provider-taxonomy',
-              display: display
-            }
-          ],
-          text: display
-        }
-      end
-   end
+    def specialty
+        pharmacy_codes.map do |code|
+          display = NUCCCodes.specialty_display(code)
+          {
+            coding: [
+              {
+                code: code,
+                system: 'http://nucc.org/provider-taxonomy',
+                display: display
+              }
+            ],
+            text: display
+          }
+        end
+     end
 
   end
 end

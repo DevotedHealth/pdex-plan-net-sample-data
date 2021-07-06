@@ -45,7 +45,7 @@ module PDEX
     end
 
     def id
-      source_data.npi
+      "organization-#{source_data.npi}"
     end
 
     def meta

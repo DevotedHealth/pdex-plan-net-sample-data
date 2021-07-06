@@ -59,39 +59,39 @@ module PDEX
 
     def accessibility_extension
       return if pharmacy
-      {
-        url: ACCESSIBILITY_EXTENSION_URL,
-        valueCodeableConcept: {
-          coding: [
-            {
-              system: ACCESSIBILITY_CODE_SYSTEM_URL,
-              code: 'handiaccess',
-              display: 'handicap accessible'
-            }
-          ],
-          text: 'Offers a variety of services and programs for persons with disabilities'
-        }
-      }
+      # {
+      #   url: ACCESSIBILITY_EXTENSION_URL,
+      #   valueCodeableConcept: {
+      #     coding: [
+      #       {
+      #         system: ACCESSIBILITY_CODE_SYSTEM_URL,
+      #         code: 'handiaccess',
+      #         display: 'handicap accessible'
+      #       }
+      #     ],
+      #     text: 'Offers a variety of services and programs for persons with disabilities'
+      #   }
+      # }
     end
 
     def new_patients_extension
       return if pharmacy
-      {
-        url: NEW_PATIENTS_EXTENSION_URL,
-        extension: [
-          {
-            url: ACCEPTING_NEW_PATIENTS_EXTENSION_URL,
-            valueCodeableConcept: {
-              coding: [
-                {
-                  system: ACCEPTING_PATIENTS_CODE_SYSTEM_URL,
-                  code: accepting_patients_code(location_name.length)
-                }
-              ]
-            }
-          }
-        ]
-      }
+      # {
+      #   url: NEW_PATIENTS_EXTENSION_URL,
+      #   extension: [
+      #     {
+      #       url: ACCEPTING_NEW_PATIENTS_EXTENSION_URL,
+      #       valueCodeableConcept: {
+      #         coding: [
+      #           {
+      #             system: ACCEPTING_PATIENTS_CODE_SYSTEM_URL,
+      #             code: accepting_patients_code(location_name.length)
+      #           }
+      #         ]
+      #       }
+      #     }
+      #   ]
+      # }
     end
 
     def identifier
@@ -100,7 +100,7 @@ module PDEX
         system: "https://#{format_for_url(location_name)}.com",
         value: 'main campus',
         assigner: {
-          reference: "Organization/#{organization_id}",
+          reference: "Organization/organization-#{organization_id}",
           display: organization_name
         }
       }

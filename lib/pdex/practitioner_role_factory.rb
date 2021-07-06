@@ -79,7 +79,7 @@ module PDEX
         {
           url: NETWORK_REFERENCE_EXTENSION_URL,
           valueReference: {
-            reference: "Organization/#{network.npi}",
+            reference: "Organization/organization-#{network.npi}",
             display: network.name
           }
         }
@@ -96,7 +96,7 @@ module PDEX
     def organization
       return nil if organization_data.nil?
       {
-        reference: "Organization/#{organization_data.npi}",
+        reference: "Organization/organization-#{organization_data.npi}",
         display: organization_data.name
       }
     end
@@ -125,7 +125,7 @@ module PDEX
       return nil if organization_data.nil?
       [
         {
-          reference: "Location/#{organization_data.npi}",
+          reference: "Location/location-#{organization_data.npi}",
           display: organization_data.name
         }
       ]
