@@ -78,7 +78,7 @@ module PDEX
       suffix = [source_data.name.suffix, source_data.name.credential].reject(&:blank?)
 
       display_name = "#{source_data.name.first} #{source_data.name.last}"
-      display_name = "#{source_data.name.first} #{source_data.name.last}, #{suffix}" if !suffix.blank?
+      display_name = "#{source_data.name.first} #{source_data.name.last}, #{source_data.name.credential}" if !source_data.name.credential.blank?
 
       {
         use: 'official',
