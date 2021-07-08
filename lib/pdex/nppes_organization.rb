@@ -33,12 +33,12 @@ module PDEX
       OpenStruct.new(
         {
           lines: [
-            raw_data['Provider First Line Business Mailing Address'],
-            raw_data['Provider Second Line Business Mailing Address']
+            raw_data['Provider First Line Business Practice Location Address'],
+            raw_data['Provider Second Line Business Practice Location Address']
           ].reject(&:blank?),
-          city: raw_data['Provider Business Mailing Address City Name'],
-          state: raw_data['Provider Business Mailing Address State Name'],
-          zip: format_zip(raw_data['Provider Business Mailing Address Postal Code'])
+          city: raw_data['Provider Business Practice Location Address City Name'],
+          state: raw_data['Provider Business Practice Location Address State Name'],
+          zip: format_zip(raw_data['Provider Business Practice Location Address Postal Code'])
         }
       )
     end

@@ -41,7 +41,7 @@ module PDEX
 
       return params if payer || managing_org
 
-      params.merge(contact: contact)
+      # params.merge(contact: contact)
     end
 
     def id
