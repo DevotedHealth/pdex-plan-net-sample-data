@@ -8,9 +8,10 @@ module PDEX
     include Position
     include ShortName
 
-    attr_reader :name
+    attr_reader :pharmacy, :name
 
-    def initialize(name)
+    def initialize(pharmacy, name)
+      @pharmacy = pharmacy
       @name = name 
     end
 
@@ -19,7 +20,8 @@ module PDEX
     end
 
     def phone_numbers
-      @phone_numbers ||= []
+      return @pharmacy.phone_numbers if !@pharmacy.nil?
+      @phone_numbers
     end
 
     def fax_numbers
@@ -27,15 +29,7 @@ module PDEX
     end
 
     def address
-      OpenStruct.new(
-        {
-          lines: [
-          ],
-          city: '',
-          state: '',
-          zip: format_zip('')
-        }
-      )
+      return @pharmacy.address if !@pharmacy.nil?
     end
 
     def contact_first_name

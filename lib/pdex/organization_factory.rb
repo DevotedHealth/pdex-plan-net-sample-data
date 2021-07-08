@@ -31,7 +31,6 @@ module PDEX
       params = {
         id: id,
         meta: meta,
-        identifier: identifier,
         active: true,
         type: type,
         name: name,
@@ -39,9 +38,12 @@ module PDEX
         address: address_with_geolocation,
       }
 
+      params.merge(identifier: identifier) if !identifier.nil?
+
       return params if payer || managing_org
 
       # params.merge(contact: contact)
+      params
     end
 
     def id

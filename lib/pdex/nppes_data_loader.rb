@@ -88,11 +88,24 @@ module PDEX
         # - iterate through NPPESDataRepo.pharmacies and generate PharmacyOrg
         #   objects to hold the data
         # - add the pharmacy orgs to NPPESDataRepo.pharmacy_orgs
+        unique_org_names = {}
+        NPPESDataRepo.pharmacies.each do |pharmacy|
+          name = short_name(pharmacy.name)
+          if unique_org_names[name].nil?
+            unique_org_names[name] = [pharmacy]
+          else
+            unique_org_names[name].push(pharmacy)
+          end
+        end
 
-        unique_org_names = NPPESDataRepo.pharmacies.map{ |pharmacy| short_name(pharmacy.name)}.uniq.sort 
-         unique_org_names.each {|name| 
-          NPPESDataRepo.pharmacy_orgs << PDEX::PharmacyOrgData.new(name)
-        }
+        unique_org_names.keys.each do |name|
+          if unique_org_names[name].length == 1
+            NPPESDataRepo.pharmacy_orgs << PDEX::PharmacyOrgData.new(unique_org_names[name][0], name)
+          else
+            # We can't reliably put an address/phone number on the pharmacy org if we know there is more than one
+            NPPESDataRepo.pharmacy_orgs << PDEX::PharmacyOrgData.new(nil, name)
+          end
+        end
       end
     end
   end
