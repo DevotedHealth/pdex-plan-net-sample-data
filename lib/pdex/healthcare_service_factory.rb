@@ -28,10 +28,8 @@ module PDEX
           active: true,
           category: category,
           providedBy: provided_by,
-          specialty: specialty,
           location: locations,
           name: name,
-          comment: comment,
           telecom: telecom,
         }
       )

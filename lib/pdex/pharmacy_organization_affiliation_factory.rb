@@ -22,7 +22,7 @@ module PDEX
           active: true,
           network: network,
           code: code,
-          specialty: specialty,
+          # TODO specialty: specialty,
           participatingOrganization: organization,
           healthcareService: healthcareService,
           location: pharmacy_locations 

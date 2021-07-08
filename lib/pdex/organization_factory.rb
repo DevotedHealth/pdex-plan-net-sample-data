@@ -65,7 +65,7 @@ module PDEX
     end
 
     def identifier
-      # return  pharmacy_org_identifier if @pharmacy
+      return nil if @pharmacy || @npi.nil? || @npi.length > 10
       {
         use: 'official',
         system: 'http://hl7.org/fhir/sid/us-npi',
