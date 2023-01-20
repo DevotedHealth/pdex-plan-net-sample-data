@@ -23,18 +23,20 @@ module PDEX
     ]
 
     class << self
-      def generate
+      def generate(mode)
+        puts "create_output_directories"
         create_output_directories
-        generate_insurance_plans
-        generate_managing_orgs
-        generate_payers
-        generate_networks
-        generate_organizations
-        generate_locations
-        generate_endpoints
-        generate_practitioners
-        generate_pharmacies
-        generate_pharmacy_orgs
+        if mode == :providers
+          puts "generate_practitioners"
+          generate_practitioners
+        end
+        if mode == :pharmacy
+           puts "generate_pharmacies"
+           generate_pharmacies
+           puts "generate_pharmacy_orgs"
+           generate_pharmacy_orgs
+        end
+        puts "complete"
       end
 
       private
@@ -102,11 +104,27 @@ module PDEX
 
       # Generate Practitioners and PractitionerRoles
       def generate_practitioners
-        PDEX::NPPESDataRepo.practitioners.each do |nppes_data|
-          PDEX::PractitionerGenerator.new(nppes_data).generate.each do |resource|
-            write_resource(resource)
+
+        mut = Mutex.new
+        q = SizedQueue.new(100)
+        threads = []
+        2.times do
+          threads << Thread.new do
+            while !q.closed? || (q.closed? && !q.empty?) do
+              elem = q.pop
+              next unless elem
+              PDEX::PractitionerGenerator.new(elem).generate.each do |resource|
+                write_resource(resource)
+              end
+            end
           end
         end
+
+        PDEX::NPPESDataRepo.practitioners.each do |nppes_data|
+          q.push(nppes_data)
+        end
+        q.close
+        threads.map(&:join)
       end
 
       def generate_pharmacies
@@ -116,12 +134,27 @@ module PDEX
       end
 
       def generate_pharmacy_orgs
-        # Pharmacy_orgs is a PharmacyOrgData, not an NPPES data... 
-        PDEX::NPPESDataRepo.pharmacy_orgs.each do |nppes_data|
-          PDEX::PharmacyOrganizationGenerator.new(nppes_data).generate.each do |resource|
-            write_resource(resource)
+        mut = Mutex.new
+        q = SizedQueue.new(100)
+        threads = []
+        2.times do
+          threads << Thread.new do
+            while !q.closed? || (q.closed? && !q.empty?) do
+              elem = q.pop
+              next unless elem
+              PDEX::PharmacyOrganizationGenerator.new(elem).generate.each do |resource|
+                write_resource(resource)
+              end
+            end
           end
         end
+
+        # Pharmacy_orgs is a PharmacyOrgData, not an NPPES data... 
+        PDEX::NPPESDataRepo.pharmacy_orgs.each do |nppes_data|
+          q.push(nppes_data)
+        end
+        q.close
+        threads.map(&:join)
       end
     end
   end

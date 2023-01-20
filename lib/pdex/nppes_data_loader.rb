@@ -15,13 +15,20 @@ module PDEX
 
     class << self
     include ShortName
-    def load
+    def load(mode)
         load_managing_organizations
         load_networks
         load_organizations
-        load_practitioners
-        load_pharmacies
-        load_pharmacy_orgs
+        if mode == :providers
+          puts "Loading practitioners"
+          load_practitioners
+        end
+        if mode == :pharmacy
+          puts "Loading pharmacies"
+          load_pharmacies
+          puts "Loading pharmacy orgs"
+          load_pharmacy_orgs
+        end
       end
 
       private
@@ -69,11 +76,30 @@ module PDEX
       end
 
       def load_practitioners
-        Dir.glob(File.join(PRACTITIONER_FILES_DIR, '*.csv')) do |filename|
-          CSV.foreach(filename, headers: true) do |row|
-            NPPESDataRepo.practitioners << PDEX::NPPESPractitioner.new(row)
+        mut = Mutex.new
+        q = SizedQueue.new(100)
+        threads = []
+        2.times do
+          threads << Thread.new do
+            while !q.closed? || (q.closed? && !q.empty?) do
+              elem = q.pop
+              next unless elem
+              transformed = PDEX::NPPESPractitioner.new(elem)
+              mut.synchronize do
+                NPPESDataRepo.practitioners << transformed
+              end
+            end
           end
         end
+
+        Dir.glob(File.join(PRACTITIONER_FILES_DIR, '*.csv')) do |filename|
+          puts "Loading #{filename}"
+          CSV.foreach(filename, headers: true) do |row|
+            q.push(row)
+          end
+        end
+        q.close
+        threads.map(&:join)
       end
 
       def load_pharmacies

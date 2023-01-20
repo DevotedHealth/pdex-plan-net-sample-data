@@ -117,8 +117,7 @@ module PDEX
 
     def specialty
       source_data.qualifications
-        .map { |qualification| nucc_codeable_concept(qualification) }
-        .first
+        .find { |qualification| nucc_codeable_concept(qualification) }
     end
 
     def location
