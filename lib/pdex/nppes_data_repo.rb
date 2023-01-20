@@ -41,18 +41,15 @@ module PDEX
       DEFAULT_STATE = 'MA'
 
       def networks_by_state(state)
-        @networks_by_state ||= networks.group_by { |network| network.address.state }
-        @networks_by_state[state] || @networks_by_state[DEFAULT_STATE]
+        networks.filter{|network| network.address.state == state}
       end
 
       def managing_orgs_by_state(state)
-        @managing_orgs_by_state ||= managing_orgs.group_by { |org| org.address.state }
-        @managing_orgs_by_state[state] || @managing_orgs_by_state[DEFAULT_STATE]
+        managing_orgs.filter{|org| org.address.state == state}
       end
 
       def organizations_by_state(state)
-        @organizations_by_state ||= organizations.group_by { |org| org.address.state }
-        @organizations_by_state[state] || @organizations_by_state[DEFAULT_STATE]
+        organizations.filter{|org| org.address.state == state}
       end
     end
   end

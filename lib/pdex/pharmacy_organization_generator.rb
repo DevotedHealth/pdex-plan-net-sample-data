@@ -10,7 +10,8 @@ module PDEX
     include ShortName
 
     def generate
-      [organization, organization_affiliation].concat(organization_services)
+      locations = pharmacies_by_organization(organization)
+      [organization, organization_affiliation(locations)].concat(organization_services(locations))
     end
 
     private
@@ -20,23 +21,18 @@ module PDEX
       PDEX::OrganizationFactory.new(nppes_data, pharmacy:true).build
     end
 
-    def organization_affiliation
+    def organization_affiliation(locs)
       PDEX::PharmacyOrganizationAffiliationFactory.new(
         nppes_data,
         networks: networks,
-        services: organization_services,
+        services: organization_services(locs),
         managing_org: nil,
-        locations: locations 
+        locations: locs
       ).build
     end
 
     def pharmacies_by_organization(organization)
-      @pharmacy_by_organization ||= PDEX::NPPESDataRepo.pharmacies.group_by { |pharm| short_name(pharm.name) }
-      @pharmacy_by_organization[organization.name] 
-    end
-
-    def locations
-      pharmacies_by_organization(organization)
+      PDEX::NPPESDataRepo.pharmacies.filter {|pharm| short_name(pharm.name) == organization.name}
     end
 
     def provided_by
@@ -47,10 +43,10 @@ module PDEX
     end
 
    # Add a single service -- pharmacy...
-    def organization_services
+    def organization_services(locs)
       @organization_services ||= [ PDEX::HealthcareServiceFactory.new(
         nppes_data, 
-        locations: locations, 
+        locations: locs,
         provided_by: provided_by, 
         category_type: HEALTHCARE_SERVICE_CATEGORY_TYPES[:pharmacy]
       ).build ]

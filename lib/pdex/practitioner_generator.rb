@@ -33,7 +33,7 @@ module PDEX
     end
 
     def organization
-      return nil if organizations.nil?
+      return nil if organizations.nil? || organizations.length == 0
       organizations[nppes_data.npi.to_i % organizations.length]
     end
 

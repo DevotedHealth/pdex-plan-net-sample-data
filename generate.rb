@@ -1,7 +1,12 @@
+STDOUT.sync = true
 require 'csv'
 require 'pry'
 require_relative 'lib/pdex'
 
-PDEX::NPPESDataLoader.load
+mode = ENV['LOAD'] == 'pharmacy' ? :pharmacy : :providers
 
-PDEX::FHIRGenerator.generate
+puts "Loading NPPES data"
+PDEX::NPPESDataLoader.load(mode)
+
+puts "Generating FHIR data"
+PDEX::FHIRGenerator.generate(mode)

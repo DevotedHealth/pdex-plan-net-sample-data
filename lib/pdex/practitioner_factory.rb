@@ -6,13 +6,69 @@ require_relative 'telecom'
 require_relative 'utils/states'
 require_relative 'utils/nucc_codes'
 
+PROFICIENCIES = [
+      {
+        code: '10',
+        display: 'Elementary proficiency'
+      },
+      {
+        code: '20',
+        display: 'Limited working proficiency'
+      },
+      {
+        code: '30',
+        display: 'General professional proficiency'
+      },
+      {
+        code: '40',
+        display: 'Advanced professional proficiency'
+      },
+      {
+        code: '50',
+        display: 'Functional native proficiency'
+      }
+    ]
+
+languages = [
+        {
+          code: 'ht',
+          display: 'Haitian'
+        },
+        {
+          code: 'zh',
+          display: 'Chinese'
+        },
+        {
+          code: 'es',
+          display: 'Spanish'
+        },
+        {
+          code: 'pt',
+          display: 'Portuguese'
+        },
+        {
+          code: 'vi',
+          display: 'Vietnamese'
+        }
+      ]
+
 module PDEX
+
+  PRACTITIONER_PROFILE_URL = 'http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Practitioner'
+
   class PractitionerFactory
     include Address
     include FHIRElements
     include Telecom
 
     attr_reader :source_data
+
+    @@meta =
+      {
+        profile: [PRACTITIONER_PROFILE_URL],
+        versionId: '1',
+        lastUpdated: '2020-08-17T10:03:10Z'
+      }
 
     def initialize(nppes_practitioner)
       @source_data = nppes_practitioner
@@ -22,7 +78,7 @@ module PDEX
       FHIR::Practitioner.new(
         {
           id: id,
-          meta: meta,
+          meta: @@meta,
           identifier: identifier,
           active: true,
           name: name,
@@ -39,14 +95,6 @@ module PDEX
 
     def id
       "practitioner-#{source_data.npi}"
-    end
-
-    def meta
-      {
-        profile: [PRACTITIONER_PROFILE_URL],
-        versionId: '1',
-        lastUpdated: '2020-08-17T10:03:10Z'
-      }
     end
 
     def identifier
@@ -196,28 +244,7 @@ module PDEX
     end
 
     def second_language(n)
-      language = [
-        {
-          code: 'ht',
-          display: 'Haitian'
-        },
-        {
-          code: 'zh',
-          display: 'Chinese'
-        },
-        {
-          code: 'es',
-          display: 'Spanish'
-        },
-        {
-          code: 'pt',
-          display: 'Portuguese'
-        },
-        {
-          code: 'vi',
-          display: 'Vietnamese'
-        }
-      ][n]
+      language = languages[n]
 
       return if language.blank?
 
@@ -233,29 +260,6 @@ module PDEX
         extension: [proficiency_extension]
       }
     end
-
-    PROFICIENCIES = [
-      {
-        code: '10',
-        display: 'Elementary proficiency'
-      },
-      {
-        code: '20',
-        display: 'Limited working proficiency'
-      },
-      {
-        code: '30',
-        display: 'General professional proficiency'
-      },
-      {
-        code: '40',
-        display: 'Advanced professional proficiency'
-      },
-      {
-        code: '50',
-        display: 'Functional native proficiency'
-      }
-    ]
 
     def proficiency_extension(fluent = false)
       proficiency =
